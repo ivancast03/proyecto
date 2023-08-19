@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mi Sitio{% endblock %}</title>
+    <!-- Cargar estilos de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+
+
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            background-color: #333;
+            color: #fff;
+            margin-top: 20px;
+        }
+
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .logo {
+            font-family: 'Arial', sans-serif;
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+
+
+        /* Cambiar el color del texto para elementos de la base de datos */
+        .colored-text {
+            color: #69f0ae;
+            /* Cambia este color según tu preferencia */
+        }
+
+
+        .pagination a {
+            color: #4CAF50;
+            /* Cambia este color según tu preferencia */
+            text-decoration: none;
+            padding: 8px 16px;
+            transition: background-color 0.3s;
+        }
+
+        .pagination a:hover {
+            background-color: #4CAF50;
+            /* Cambia este color según tu preferencia */
+            color: white;
+            /* Cambia este color según tu preferencia */
+        }
+
+        .social-icon {
+            color: #fff;
+            /* Cambia este color según tus preferencias */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Encabezado -->
+        <header class="mb-4">
+            <div class="text-center">
+                <h1 class="logo" style="font-family: 'Arial', sans-serif; font-size: 60px; font-weight: bold;">GDXD</h1>
+                <p style="font-family: 'Arial', sans-serif; font-size: 17px; font-weight: bold; color: #4CAF50;">
+                    Generador de Dorks</p>
+
+            </div>
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+                <div class="container">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'mi_vista' %}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'acerca_de' %}">Acerca de</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'soporte' %}">Foros</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'preguntas_frecuentes' %}">Ciberseguridad</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'herramientas' %}">OSINT</a>
+                        </li>
+                    </ul>
+            </nav>
+        </header>
+
+        <!-- Contenido específico de cada página -->
+        {% block content %}
+
+        {% endblock %}
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2023 GDXP. Todos los derechos reservados.</p>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#">Términos y condiciones</a></li>
+                <li class="list-inline-item"><a href="#">Política de privacidad</a></li>
+                <li class="list-inline-item"><a href="#">Mapa del sitio</a></li>
+                <!-- Agregar enlaces a redes sociales -->
+                <li class="list-inline-item"><a href="URL-DE-TU-RED-SOCIAL" class="social-icon"><i
+                            class="fab fa-facebook"></i></a></li>
+                <li class="list-inline-item"><a href="URL-DE-TU-RED-SOCIAL" class="social-icon"><i
+                            class="fab fa-twitter"></i></a></li>
+                <li class="list-inline-item"><a href="URL-DE-TU-RED-SOCIAL" class="social-icon"><i
+                            class="fab fa-instagram"></i></a></li>
+                <!-- Agrega más iconos y enlaces según tus redes sociales -->
+            </ul>
+            <p>Dirección de la empresa o mapa</p>
+        </footer>
+
+
+</body>
+
+</html>

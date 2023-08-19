@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Mi Página{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card bg-dark text-light">
+            <div class="card-body">
+                <form id="searchForm" action="" method="GET">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="q" id="searchQuery"
+                            placeholder="Ingrese su texto..." value="{{ search_query }}">
+                    </div>
+                    <button type="submit" class="btn btn-primary"
+                        style="background-color: #4CAF50;border-color: #4CAF50;">Buscar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ... -->
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <div class="card bg-dark text-light">
+            <div class="card-body">
+                <h2>Lista de Dorks</h2>
+                <ul id="dorkList">
+                    {% for dork in page_obj %}
+                    <li data-title="{{ dork.titulo }}" data-dork="{{ dork.dork }}">
+                        {{ dork.titulo }} - <a href="#" class="colored-text" data-dork="{{ dork.dork }}">{{ dork.dork
+                            }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ... -->
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <div class="card bg-dark text-light">
+            <div class="card-body">
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                        {% endif %}
+
+                        <span class="current">
+                            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                        </span>
+
+                        {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">next</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        const dorkList = $("#dorkList");
+
+        dorkList.find("li").each(function () {
+            const listItem = $(this);
+            const dork = listItem.attr("data-dork");
+            const title = listItem.attr("data-title");
+            const googleLink = `https://www.google.com/search?q=${encodeURIComponent(dork)}`;
+
+            const link = $("<a>").attr("href", googleLink).attr("target", "_blank").text(dork);
+            listItem.empty().append(title + " - ").append(link);
+            listItem.find("a").addClass("colored-text");
+        });
+    });
+</script>
+{% endblock %}
