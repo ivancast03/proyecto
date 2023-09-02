@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.core.paginator import Paginator
 from .models import Dork
 from django.db.models import Q
+from .models import Onion
 
 
 def mi_vista(request):
@@ -23,7 +24,21 @@ def mi_vista(request):
 
 
 def acerca_de(request):
-    return render(request, "acerca_de.html")
+    search_query = request.GET.get("q", "")
+    onions_list = Onion.objects.all()  # Utiliza el modelo Onion
+
+    if search_query:
+        onions_list = onions_list.filter(
+            Q(pagina__icontains=search_query) | Q(onion__icontains=search_query)
+        )
+
+    paginator = Paginator(onions_list, 8)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    return render(
+        request, "acerca_de.html", {"page_obj": page_obj, "search_query": search_query}
+    )
 
 
 def soporte(request):
