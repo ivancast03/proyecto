@@ -3,6 +3,8 @@ from django.core.paginator import Paginator
 from .models import Dork
 from django.db.models import Q
 from .models import Onion
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import DorkForm
 
 
 def mi_vista(request):
@@ -51,3 +53,40 @@ def preguntas_frecuentes(request):
 
 def herramientas(request):
     return render(request, "herramientas.html")
+
+
+def listar_dorks(request):
+    dorks = Dork.objects.all()
+    return render(request, "crudork.html", {"dorks": dorks})
+
+
+def crear_dork(request):
+    if request.method == "POST":
+        form = DorkForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("listar_dorks")
+    else:
+        form = DorkForm()
+    return render(request, "crear_dork.html", {"form": form})
+
+
+def editar_dork(request, pk):
+    dork = get_object_or_404(Dork, pk=pk)
+
+    if request.method == "POST":
+        form = DorkForm(request.POST, instance=dork)
+        if form.is_valid():
+            form.save()
+            return redirect("listar_dorks")
+    else:
+        form = DorkForm(instance=dork)
+
+    return render(request, "editar_dork.html", {"form": form})
+
+
+def eliminar_dork(request, pk):
+    dork = get_object_or_404(Dork, pk=pk)
+    if request.method == "POST":
+        dork.delete()
+        return redirect("listar_dorks")

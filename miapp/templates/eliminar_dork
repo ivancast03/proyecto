@@ -1,0 +1,9 @@
+from django.shortcuts import redirect, get_object_or_404
+from .models import Dork
+
+
+def eliminar_dork(request, pk):
+    dork = get_object_or_404(Dork, pk=pk)
+    if request.method == "POST":
+        dork.delete()
+    return redirect("listar_dorks")

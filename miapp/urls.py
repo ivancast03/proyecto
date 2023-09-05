@@ -9,4 +9,8 @@ urlpatterns = [
         "preguntas_frecuentes/", views.preguntas_frecuentes, name="preguntas_frecuentes"
     ),
     path("herramientas/", views.herramientas, name="herramientas"),
+    path("listar_dorks/", views.listar_dorks, name="listar_dorks"),
+    path("crear_dork/", views.crear_dork, name="crear_dork"),
+    path("editar_dork/<int:pk>/", views.editar_dork, name="editar_dork"),
+    path("eliminar_dork/<int:pk>/", views.eliminar_dork, name="eliminar_dork"),
 ]
