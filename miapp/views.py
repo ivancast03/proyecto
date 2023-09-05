@@ -5,6 +5,13 @@ from django.db.models import Q
 from .models import Onion
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import DorkForm
+from django.contrib.auth import login, authenticate
+from django.shortcuts import render, redirect
+from .forms import RegistroForm
+from django.contrib.auth import login
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
+from .forms import LoginForm
 
 
 def mi_vista(request):
@@ -90,3 +97,38 @@ def eliminar_dork(request, pk):
     if request.method == "POST":
         dork.delete()
         return redirect("listar_dorks")
+
+
+def registro(request):
+    if request.method == 'POST':
+        form = RegistroForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password1'])  # Configura la contraseña manualmente
+            user.save()
+            login(request, user)  # Inicia sesión después del registro
+            return redirect('mi_vista')  # Redirigir a la página deseada después del registro
+    else:
+        form = RegistroForm()
+    return render(request, 'registro.html', {'form': form})
+
+
+def inicio_sesion(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('mi_vista')  # Redirige a la página deseada después del inicio de sesión
+            else:
+                # Manejar error de inicio de sesión (usuario o contraseña incorrectos)
+                pass  # Puedes agregar tu propia lógica de manejo de errores aquí
+    else:
+        form = LoginForm()
+    return render(request, 'inicio_sesion.html', {'form': form})
+
+
+
